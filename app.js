@@ -9,15 +9,6 @@ var app = new broadway.App();
 //The holding directory for all the applications
 var dir = "./apps";
 var router = new director.http.Router();
-var output = '<html><head><title>Iframe test</title></head><body>';
-        output += '<div id="menu"></div>'
-        output += '<iframe id="appFrame" scrolling="no" frameborder="0" src="" width="800" height="600"></iframe>'
-        output += '<script language="JavaScript">'
-        output += 'document.getElementById("appFrame").src = "/home.html";'
-        output += 'function menuclick(obj) { window.frames["appFrame"].document.location.href = "/" + obj.innerHTML.toLowerCase(); }'
-        output += '</script></body></html>';
-var menu = "";
-var home;
 fs.readFile('./home.html', function (err, data) {
     if (err) {
         throw err;
@@ -35,8 +26,14 @@ function getindex(route)
 function getstatic(route)
 {
     console.log(this.req.url);
-    var filePath = '.' + this.req.url;
-    var response = this.res;
+	var url = this.req.url;
+	var filePath = "";
+	if(url == '/')
+		filePath = './index.html';
+	else
+		filePath = '.' + this.req.url;
+    
+	var response = this.res;
     path.exists(filePath, function(exists) {
      
         if (exists) {
@@ -46,7 +43,7 @@ function getstatic(route)
                     response.end();
                 }
                 else {
-                    response.writeHead(200, { 'Content-Type': 'text/html' });
+					response.writeHead(200, { 'Content-Type': 'text/html' });
                     response.end(content, 'utf-8');
                 }
             });
@@ -76,9 +73,6 @@ function loadapps()
               app.use(require(path + '/app'));
               //Read Package
               var config = require(path + '/package');
-              if(config.name != undefined)
-              output = output.replace('<div id="menu">', '<div id="menu"><div onclick="menuclick(this)">' + config.name + '</div>');
-              
               router.get("/" + config.name, function () {
                 var resp = this.res;
                   console.log('Requesting : http://localhost:' + config.port + '/' + config.name);
@@ -101,11 +95,12 @@ function getmenus()
   //Iterate through the folders and get the names and titles of the menus and return as json
 }
 
-router.get('/', getindex );
-router.get('/index.html', getindex);
-router.get('/getmenus' getmenus);
-router.get('/home.html', getstatic );
+router.get('/', getstatic );
+router.get('/index.html', getstatic);
+router.get('/getmenus', getmenus);
+router.get('/home.html', getstatic);
 router.get('/style.css', getstatic);
+router.get('/plates.js', getstatic);
 loadapps();
 
 
