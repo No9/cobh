@@ -1,6 +1,7 @@
 {
   "author": "Number 9 <antonwhalley@vodafone.ie>",
   "name": "webapp1",
+  "displaytext" : "Web App 1",
   "description": "A simple webapp.",
   "version": "0.0.1",
   "homepage": "https://github.com/no9/cobh/webapp1",

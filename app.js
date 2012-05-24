@@ -5,10 +5,12 @@ var director = require('director');
 var broadway = require('broadway');
 var path = require('path');
 var app = new broadway.App();
-
+var menu = [];
 //The holding directory for all the applications
 var dir = "./apps";
 var router = new director.http.Router();
+
+/*
 fs.readFile('./home.html', function (err, data) {
     if (err) {
         throw err;
@@ -16,7 +18,13 @@ fs.readFile('./home.html', function (err, data) {
     home = data;
     console.log(home);
 });
-
+*/
+var menuhome = {};
+menuhome.id = 'home.html';
+menuhome.displaytext = "Home";
+menu.push(menuhome);
+				  
+				  
 function getindex(route)
 {   
     this.res.writeHead(200, { 'Content-Type': 'text/html' })
@@ -73,7 +81,14 @@ function loadapps()
               app.use(require(path + '/app'));
               //Read Package
               var config = require(path + '/package');
-              router.get("/" + config.name, function () {
+              if(config.name != undefined)
+			  {
+				var menuitem = {};
+				  menuitem.id = config.name;
+				  menuitem.displaytext = config.displaytext;
+				  menu.push(menuitem);
+			  }  
+			  router.get("/" + config.name, function () {
                 var resp = this.res;
                   console.log('Requesting : http://localhost:' + config.port + '/' + config.name);
                   request.get('http://localhost:' + config.port + '/' + config.name).pipe(resp);
@@ -90,17 +105,22 @@ function loadapps()
     });
 }
 
-function getmenus()
+function getmenu(route)
 {
-  //Iterate through the folders and get the names and titles of the menus and return as json
+  console.log('getting menu');
+  var response = this.res
+  response.writeHead(200, { 'Content-Type': 'application/json' });
+  response.end(JSON.stringify(menu), 'utf-8');
 }
 
 router.get('/', getstatic );
 router.get('/index.html', getstatic);
-router.get('/getmenus', getmenus);
+router.get('/menu', getmenu);
 router.get('/home.html', getstatic);
 router.get('/style.css', getstatic);
 router.get('/plates.js', getstatic);
+router.get('/client.js', getstatic);
+router.get('/json2.js', getstatic);
 loadapps();
 
 
