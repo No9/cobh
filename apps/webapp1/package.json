@@ -4,7 +4,8 @@
   "displaytext" : "Web App 1",
   "description": "A simple webapp.",
   "version": "0.0.1",
+  "domain" : "localhost",
   "homepage": "https://github.com/no9/cobh/webapp1",
-  "run": true,
+  "static": false,
   "port": 1337
 }

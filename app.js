@@ -1,15 +1,17 @@
 var fs = require("fs");
 var http = require('http');
+var httpProxy = require('http-proxy');
 var request = require('request');
 var director = require('director');
 var broadway = require('broadway');
 var path = require('path');
+
 var app = new broadway.App();
 var menu = [];
 //The holding directory for all the applications
 var dir = "./apps";
 var router = new director.http.Router();
-
+var routes = router: {};
 /*
 fs.readFile('./home.html', function (err, data) {
     if (err) {
@@ -88,11 +90,13 @@ function loadapps()
 				  menuitem.displaytext = config.displaytext;
 				  menu.push(menuitem);
 			  }  
+			  //routes.router.
+			  /*
 			  router.get("/" + config.name, function () {
                 var resp = this.res;
                   console.log('Requesting : http://localhost:' + config.port + '/' + config.name);
                   request.get('http://localhost:' + config.port + '/' + config.name).pipe(resp);
-              });
+              });*/
               //output = output.replace('<div id="menu">', '<div id="menu">' + menu)
               app.init(function (err){
                 if(err){
@@ -123,7 +127,16 @@ router.get('/client.js', getstatic);
 router.get('/json2.js', getstatic);
 loadapps();
 
+var options = {
+  router: {
+    'localhost': '127.0.0.1:8080',
+    'localhost:8080/webapp1': 'localhost:1337',
+    'bar.com/buz': '127.0.0.1:8003'
+  }
+};
 
+var proxyServer = httpProxy.createServer(options);
+proxyServer.listen(8081);
 
 var server = http.createServer(function (req, res) {
     router.dispatch(req, res, function (err) {
