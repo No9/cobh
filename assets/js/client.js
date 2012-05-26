@@ -15,11 +15,12 @@ window.onload = function() {
 		httpmenu.open("GET", "/menu", true);
 		httpmenu.onreadystatechange = function() {
 			if(httpmenu.readyState == 4 && httpmenu.status == 200) {
-				var html = '<div class="menuitem" id="/" onclick="menuclick(this)"></div>';
+				//var html = '<div class="menuitem" id="/" onclick="menuclick(this)"></div>';
+				var html = '<li class="single-link" id="/" onclick="menuclick(this)"></li>';
 				
 				var data = JSON.parse(httpmenu.responseText);
 				var map = Plates.Map();
-				map.cls('menuitem').to('displaytext');
+				map.cls('single-link').to('displaytext');
 				map.where('id').is('/').insert('id');
 				var output = Plates.bind(html, data, map);
 				

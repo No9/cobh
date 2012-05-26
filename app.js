@@ -11,7 +11,7 @@ var menu = [];
 //The holding directory for all the applications
 var dir = "./apps";
 var router = new director.http.Router();
-var routes = router: {};
+var routes = {};
 /*
 fs.readFile('./home.html', function (err, data) {
     if (err) {
@@ -33,7 +33,7 @@ function getindex(route)
     this.res.end(output);
 }
 
-function getstatic(route)
+function getstatic(route, style)
 {
     console.log(this.req.url);
 	var url = this.req.url;
@@ -91,13 +91,12 @@ function loadapps()
 				  menu.push(menuitem);
 			  }  
 			  //routes.router.
-			  /*
 			  router.get("/" + config.name, function () {
                 var resp = this.res;
                   console.log('Requesting : http://localhost:' + config.port + '/' + config.name);
                   request.get('http://localhost:' + config.port + '/' + config.name).pipe(resp);
-              });*/
-              //output = output.replace('<div id="menu">', '<div id="menu">' + menu)
+              });
+			  /**/
               app.init(function (err){
                 if(err){
                     console.log(err);
@@ -121,10 +120,13 @@ router.get('/', getstatic );
 router.get('/index.html', getstatic);
 router.get('/menu', getmenu);
 router.get('/home.html', getstatic);
-router.get('/style.css', getstatic);
-router.get('/plates.js', getstatic);
-router.get('/client.js', getstatic);
-router.get('/json2.js', getstatic);
+router.get('/assets/js/plates.js', getstatic);
+router.get('/assets/js/json2.js', getstatic);
+router.get('/assets/js/client.js', getstatic);
+router.get('/assets/css/boilerplate.css', getstatic);
+router.get('/assets/css/style.css', getstatic);
+router.get('/assets/css/leaflet.css', getstatic);
+
 loadapps();
 
 var options = {
