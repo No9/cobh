@@ -21,7 +21,6 @@
     "url": "https://github.com/No9/cobh/issues"
   },
   "dependencies": {
-    "rolodex": "0.5.8",
     "broadway": "0.1.15",
     "director": "1.0.10",
     "http-proxy": "0.8.0",
@@ -33,5 +32,5 @@
     },
     "scripts" : {
         "test" : "tap test/*.js"
-  },
+  }
 }
