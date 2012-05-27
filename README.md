@@ -1,7 +1,7 @@
 cobh
 ====
 
-A micro app container based on the flatiron stack. 
+A micro app container based on the [flatiron](https://github.com/flatiron) stack from [nodejitsu](http://www.nodejitsu.com/). 
 
 [![build status](https://secure.travis-ci.org/No9/cobh.png)](http://travis-ci.org/No9/cobh)
 
@@ -22,4 +22,4 @@ $ node app.js
 Browse
 ------ 
 In the your favourite web browser go to [localhost:8080](http://localhost:8080)
-You find a tutorial on the home page. 
+You will find a tutorial on that page. 
