@@ -1,7 +1,7 @@
 cobh
 ====
 
-A micro app container based on the [flatiron](https://github.com/flatiron) stack from [nodejitsu](http://www.nodejitsu.com/). 
+A multi-micro app container (old money portal) based on the [flatiron](https://github.com/flatiron) stack from [nodejitsu](http://www.nodejitsu.com/). 
 
 [![build status](https://secure.travis-ci.org/No9/cobh.png)](http://travis-ci.org/No9/cobh)
 

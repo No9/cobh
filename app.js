@@ -5,7 +5,9 @@ var request = require('request');
 var director = require('director');
 var broadway = require('broadway');
 var path = require('path');
+var trumpet = require('trumpet');
 
+//var tr = trumpet();
 var app = new broadway.App();
 var menu = [];
 //The holding directory for all the applications
@@ -94,7 +96,16 @@ function loadapps()
 			  router.get("/" + config.name, function () {
                 var resp = this.res;
                   console.log('Requesting : http://localhost:' + config.port + '/' + config.name);
+                  var tr = trumpet();
+
+                  tr.select('body', function (node) {
+                      node.update(function (html) {
+                          return "<body>Replaced</body>"; //html.toUpperCase();
+                      });
+                  });
+                  tr.pipe(resp);
                   request.get('http://localhost:' + config.port + '/' + config.name).pipe(resp);
+              
               });
 			  /**/
               app.init(function (err){
